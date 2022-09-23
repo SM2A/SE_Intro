@@ -61,4 +61,16 @@ class EmployeeController {
     void deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
     }
+
+    @GetMapping("/employees/{id}/overtime")
+    Employee.OvertimeEmployee oneOvertime(@PathVariable Long id) {
+
+        return repository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id)).toOvertimeEmployee();
+    }
+
+    @GetMapping("/employees/overtime")
+    List<Employee.OvertimeEmployee> allOvertime() {
+        return repository.findAll().stream().map(Employee::toOvertimeEmployee).toList();
+    }
 }
